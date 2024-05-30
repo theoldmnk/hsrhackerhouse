@@ -1,43 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>What Did You Ship?</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f4f4f4;
-            color: #333;
+// Define the function to fetch data from Airtable
+async function fetchAirtableData() {
+    try {
+        const response = await fetch('https://api.airtable.com/v0/hhh/hhh_projects?filterByFormula={ReviewStatus}="Approved"', {
+            headers: {
+                Authorization: 'patu4vehpLdDhH8UM.91fa109d1f8b2863f7c95cf6695e86b6b5ce752bca952f11caae45a5132fde03'
+            }
+        });
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
-        .container {
-            width: 80%;
-            margin: 20px auto;
-            background: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .record-item {
-            margin-bottom: 20px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
-        }
-        h3 {
-            color: #5D5C61;
-        }
-        p {
-            color: #379683;
-        }
-    </style>
-</head>
-<body>
-    <div class="container" id="data-container">
-        <!-- Data from Airtable will be displayed here by the JavaScript -->
-    </div>
+        const data = await response.json();
+        return data.records; // This returns an array of records
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
 
-    <!-- Include the JavaScript file that fetches and displays the data -->
-    <script src="hhh_db.js"></script>
-</body>
-</html>
+// Define the function to display data on the webpage
+function displayData(records) {
+    const container = document.getElementById('data-container'); // Make sure you have a div with this ID in your HTML
+    container.innerHTML = ''; // Clear previous content
+    records.forEach(record => {
+        const div = document.createElement('div');
+        div.className = 'record-item'; // Optional: Add a class for styling
+        div.innerHTML = `<h3>${record.fields.Name}</h3><p>${record.fields.ProjectDescription}</p>`;
+        container.appendChild(div);
+    });
+}
+
+// Set up the document to fetch and display data once the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    fetchAirtableData().then(records => {
+        if (records) {
+            displayData(records);
+        }
+    });
+});
