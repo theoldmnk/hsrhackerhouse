@@ -1,7 +1,7 @@
 // Define the function to fetch data from Airtable
 async function fetchAirtableData() {
     try {
-        const response = await fetch('https://api.airtable.com/v0/hhh/hhh_projects?filterByFormula={ReviewStatus}="Approved"', {
+        const response = await fetch('https://api.airtable.com/v0/appZ05ICl0Fxp5kgC/tbl3hE7p96MzJHu52/hhh_projects?filterByFormula={ReviewStatus}="Approved"', {
             headers: {
                 Authorization: 'patu4vehpLdDhH8UM.91fa109d1f8b2863f7c95cf6695e86b6b5ce752bca952f11caae45a5132fde03'
             }
