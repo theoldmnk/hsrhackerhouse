@@ -18,21 +18,35 @@ async function fetchAirtableData() {
 
 // Define the function to display data on the webpage
 function displayData(records) {
-    const container = document.getElementById('data-container'); // Make sure you have a div with this ID in your HTML
-    container.innerHTML = ''; // Clear previous content
+    const tableBody = document.getElementById('data-table').getElementsByTagName('tbody')[0];
+    tableBody.innerHTML = ''; // Clear existing table rows
+
     records.forEach(record => {
-        const div = document.createElement('div');
-        div.className = 'record-item'; // Optional: Add a class for styling
-        div.innerHTML = `<h3>${record.fields.Name}</h3><p>${record.fields.ProjectDescription}</p>`;
-        container.appendChild(div);
+        const row = document.createElement('tr');
+        
+        // Name field
+        const nameCell = document.createElement('td');
+        nameCell.textContent = record.fields.Name || 'No Name Provided';
+        
+        // Link to what you shipped field
+        const linkCell = document.createElement('td');
+        if (record.fields['Link to What You Shipped']) {
+            const link = document.createElement('a');
+            link.href = record.fields['Link to What You Shipped'];
+            link.textContent = record.fields['Link to What You Shipped'];
+            linkCell.appendChild(link);
+        } else {
+            linkCell.textContent = 'No Link Provided';
+        }
+        
+        // Social field
+        const socialCell = document.createElement('td');
+        socialCell.textContent = record.fields.Social || 'No Social Info';
+
+        row.appendChild(nameCell);
+        row.appendChild(linkCell);
+        row.appendChild(socialCell);
+        
+        tableBody.appendChild(row);
     });
 }
-
-// Set up the document to fetch and display data once the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-    fetchAirtableData().then(records => {
-        if (records) {
-            displayData(records);
-        }
-    });
-});
