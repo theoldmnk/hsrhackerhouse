@@ -42,5 +42,14 @@
         <!-- Data from Airtable will be displayed here by the JavaScript -->
     </div>
     <script src="hhh_db.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchAirtableData().then(records => {
+                if (records) {
+                    displayData(records);
+                }
+            });
+        });
+    </script>
 </body>
 </html>
