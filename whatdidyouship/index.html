@@ -19,13 +19,22 @@
             max-width: 800px;
             margin: 0 auto; /* Center the container */
         }
-        h1, p {
+        h1, p, table, th, td {
             margin: 10px 0;
         }
-        .record-item {
-            margin-bottom: 20px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #555; /* Subtle grey border for items */
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            color: #FFD700; /* Gold color for headers */
+        }
+        tr:nth-child(even) {
+            background-color: #333; /* Lighter black for even rows */
         }
         a {
             color: #4A90E2; /* Light blue color for links */
@@ -39,10 +48,63 @@
 <body>
     <div class="container" id="data-container">
         <h1>What Did You Ship?</h1>
-        <!-- Data from Airtable will be displayed here by the JavaScript -->
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Link to What You Shipped</th>
+                    <th>Social</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data rows will be inserted here by the JavaScript -->
+            </tbody>
+        </table>
     </div>
-    <script src="hhh_db.js"></script>
     <script>
+        // Define the function to fetch data from Airtable
+        async function fetchAirtableData() {
+            try {
+                const response = await fetch('https://api.airtable.com/v0/appZ05ICl0Fxp5kgC/hhh_projects', {
+                    headers: {
+                        Authorization: 'Bearer patu4vehpLdDhH8UM.91fa109d1f8b2863f7c95cf6695e86b6b5ce752bca952f11caae45a5132fde03'
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                return data.records; // This returns an array of records
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        // Define the function to display data on the webpage
+        function displayData(records) {
+            const tableBody = document.getElementById('data-table').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = ''; // Clear existing table rows
+
+            records.forEach(record => {
+                const row = document.createElement('tr');
+                const nameCell = document.createElement('td');
+                nameCell.textContent = record.fields.Name || 'No Name Provided';
+                
+                const linkCell = document.createElement('td');
+                linkCell.innerHTML = `<a href="${record.fields['Link to What You Shipped'] || '#'}">${record.fields['Link to What You Shipped'] || 'No Link Provided'}</a>`;
+
+                const socialCell = document.createElement('td');
+                socialCell.textContent = record.fields.Social || 'No Social Info';
+
+                row.appendChild(nameCell);
+                row.appendChild(linkCell);
+                row.appendChild(socialCell);
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Set up the document to fetch and display data once the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', function() {
             fetchAirtableData().then(records => {
                 if (records) {
