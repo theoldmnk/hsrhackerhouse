@@ -22,31 +22,35 @@ function displayData(records) {
     tableBody.innerHTML = ''; // Clear existing table rows
 
     records.forEach(record => {
-        const row = document.createElement('tr');
-        
-        // Name field
-        const nameCell = document.createElement('td');
-        nameCell.textContent = record.fields.Name || 'No Name Provided';
-        
-        // Link to what you shipped field
-        const linkCell = document.createElement('td');
-        if (record.fields['Link to What You Shipped']) {
-            const link = document.createElement('a');
-            link.href = record.fields['Link to What You Shipped'];
-            link.textContent = record.fields['Link to What You Shipped'];
-            linkCell.appendChild(link);
-        } else {
-            linkCell.textContent = 'No Link Provided';
-        }
-        
-        // Social field
-        const socialCell = document.createElement('td');
-        socialCell.textContent = record.fields.Social || 'No Social Info';
+        // Only display the record if the status is 'Approved'
+        if (record.fields.Status === "Approved") {
+            const row = document.createElement('tr');
+            
+            // Name field
+            const nameCell = document.createElement('td');
+            nameCell.textContent = record.fields.Name || 'No Name Provided';
+            
+            // Description field (What're you shipping)
+            const descriptionCell = document.createElement('td');
+            descriptionCell.textContent = record.fields["What're you shipping"] || 'No Description Provided';
 
-        row.appendChild(nameCell);
-        row.appendChild(linkCell);
-        row.appendChild(socialCell);
-        
-        tableBody.appendChild(row);
+            // Link to what you shipped field
+            const linkCell = document.createElement('td');
+            const linkURL = record.fields['Link to What You Shipped'];
+            linkCell.innerHTML = linkURL ? `<a href="${linkURL.startsWith('http') ? linkURL : 'http://' + linkURL}">${linkURL}</a>` : 'No Link Provided';
+            
+            // Social field
+            const socialCell = document.createElement('td');
+            const socialURL = record.fields.Social;
+            socialCell.innerHTML = socialURL ? `<a href="${socialURL.startsWith('http') ? socialURL : 'http://' + socialURL}">${socialURL}</a>` : 'No Social Info';
+
+            row.appendChild(nameCell);
+            row.appendChild(descriptionCell);
+            row.appendChild(linkCell);
+            row.appendChild(socialCell);
+            
+            tableBody.appendChild(row);
+        }
     });
 }
+
