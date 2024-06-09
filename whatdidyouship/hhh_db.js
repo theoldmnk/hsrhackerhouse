@@ -23,9 +23,46 @@ function displayData(records) {
 
     records.forEach(record => {
         const row = document.createElement('tr');
+        
+        // Name field
         const nameCell = document.createElement('td');
-        nameCell.textContent = record.fields.Name || 'No Name Provided'; // Use test data if field is empty
+        nameCell.textContent = record.fields.Name || 'No Name Provided';
+
+        // What're you shipping field
+        const shippingCell = document.createElement('td');
+        shippingCell.textContent = record.fields["What're you shipping?"] || 'No Description Provided';
+
+        // Link to what you shipped field
+        const linkCell = document.createElement('td');
+        if (record.fields['Link to what you shipped']) {
+            const link = document.createElement('a');
+            link.href = `http://${record.fields['Link to what you shipped']}`;
+            link.textContent = record.fields['Link to what you shipped'];
+            link.target = "_blank";
+            linkCell.appendChild(link);
+        } else {
+            linkCell.textContent = 'No Link Provided';
+        }
+
+        // Social field
+        const socialCell = document.createElement('td');
+        if (record.fields.Social) {
+            const socialLink = document.createElement('a');
+            socialLink.href = `http://${record.fields.Social}`;
+            socialLink.textContent = record.fields.Social;
+            socialLink.target = "_blank";
+            socialCell.appendChild(socialLink);
+        } else {
+            socialCell.textContent = 'No Social Info';
+        }
+
+        // Append cells to the row
         row.appendChild(nameCell);
+        row.appendChild(shippingCell);
+        row.appendChild(linkCell);
+        row.appendChild(socialCell);
+        
+        // Append the row to the table body
         tableBody.appendChild(row);
     });
 }
