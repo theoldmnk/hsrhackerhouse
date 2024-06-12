@@ -34,7 +34,7 @@ function displayData(records) {
 
         // Link to what you shipped field
         const linkCell = document.createElement('td');
-        const linkURL = record.fields['Link to what you shipped'];
+        const linkURL = record.fields['link to what you shipped'];
         if (linkURL) {
             const link = document.createElement('a');
             // Check if the link starts with http:// or https://
@@ -48,7 +48,7 @@ function displayData(records) {
 
         // Social field
         const socialCell = document.createElement('td');
-        const socialURL = record.fields.Social;
+        const socialURL = record.fields.social;
         if (socialURL) {
             const socialLink = document.createElement('a');
             // Same check for the social link
