@@ -27,34 +27,20 @@ function displayData(records) {
         // Name field
         const nameCell = document.createElement('td');
         nameCell.textContent = record.fields.Name || 'No Name Provided';
-
+        
         // What're you shipping field
         const shippingCell = document.createElement('td');
-        shippingCell.textContent = record.fields["What're you shipping?"] || 'No Description Provided';
+        shippingCell.textContent = record.fields["What're you shipping"] || 'No Description Provided';
 
         // Link to what you shipped field
         const linkCell = document.createElement('td');
-        if (record.fields['Link to what you shipped']) {
-            const link = document.createElement('a');
-            link.href = `http://${record.fields['Link to what you shipped']}`;
-            link.textContent = record.fields['Link to what you shipped'];
-            link.target = "_blank";
-            linkCell.appendChild(link);
-        } else {
-            linkCell.textContent = 'No Link Provided';
-        }
-
+        const linkURL = record.fields['Link to What You Shipped'];
+        linkCell.innerHTML = linkURL ? `<a href="${linkURL.startsWith('http') ? linkURL : 'http://' + linkURL}" target="_blank">${linkURL}</a>` : 'No Link Provided';
+        
         // Social field
         const socialCell = document.createElement('td');
-        if (record.fields.Social) {
-            const socialLink = document.createElement('a');
-            socialLink.href = `http://${record.fields.Social}`;
-            socialLink.textContent = record.fields.Social;
-            socialLink.target = "_blank";
-            socialCell.appendChild(socialLink);
-        } else {
-            socialCell.textContent = 'No Social Info';
-        }
+        const socialURL = record.fields.Social;
+        socialCell.innerHTML = socialURL ? `<a href="${socialURL.startsWith('http') ? socialURL : 'http://' + socialURL}" target="_blank">${socialURL}</a>` : 'No Social Info';
 
         // Append cells to the row
         row.appendChild(nameCell);
@@ -66,3 +52,12 @@ function displayData(records) {
         tableBody.appendChild(row);
     });
 }
+
+// Add this function to be called when the document is fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    fetchAirtableData().then(records => {
+        displayData(records);
+    }).catch(error => {
+        console.error("Error handling data:", error);
+    });
+});
