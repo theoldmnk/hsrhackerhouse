@@ -30,7 +30,7 @@ function displayData(records) {
         
         // What're you shipping field
         const shippingCell = document.createElement('td');
-        shippingCell.textContent = record.fields["What're you shipping"] || 'No Description Provided';
+        shippingCell.textContent = record.fields["what're you shipping"] || 'No Description Provided';
 
          // Link to what you shipped field
         const linkCell = document.createElement('td');
