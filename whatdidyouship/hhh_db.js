@@ -30,7 +30,7 @@ function displayData(records) {
         
         // What're you shipping field
         const shippingCell = document.createElement('td');
-        shippingCell.textContent = record.fields["what're you shipping"] || 'No Description Provided';
+        shippingCell.textContent = record.fields["what're you shipping?"] || 'No Description Provided';
 
          // Link to what you shipped field
         const linkCell = document.createElement('td');
@@ -44,10 +44,17 @@ function displayData(records) {
             linkCell.textContent = 'No Link Provided';
         }
         
-        // Social field
+       // Social field
         const socialCell = document.createElement('td');
-        const socialURL = record.fields.Social;
-        socialCell.innerHTML = socialURL ? `<a href="${socialURL.startsWith('http') ? socialURL : 'http://' + socialURL}" target="_blank">${socialURL}</a>` : 'No Social Info';
+        if (record.fields.Social) { // This should be lowercase if that's how it's defined in Airtable
+            const socialLink = document.createElement('a');
+            socialLink.href = `http://${record.fields.Social}`;
+            socialLink.textContent = record.fields.Social;
+            socialLink.target = "_blank";
+            socialCell.appendChild(socialLink);
+        } else {
+            socialCell.textContent = 'No Social Info';
+        }
 
         // Append cells to the row
         row.appendChild(nameCell);
