@@ -32,24 +32,28 @@ function displayData(records) {
         const shippingCell = document.createElement('td');
         shippingCell.textContent = record.fields["what're you shipping?"] || 'No Description Provided';
 
-         // Link to what you shipped field
+        // Link to what you shipped field
         const linkCell = document.createElement('td');
-        if (record.fields['link to what you shipped']) {
+        const linkURL = record.fields['Link to what you shipped'];
+        if (linkURL) {
             const link = document.createElement('a');
-            link.href = record.fields['link to what you shipped'];
+            // Check if the link starts with http:// or https://
+            link.href = linkURL.startsWith('http://') || linkURL.startsWith('https://') ? linkURL : 'https://' + linkURL;
             link.textContent = 'Visit';
             link.target = "_blank";
             linkCell.appendChild(link);
         } else {
             linkCell.textContent = 'No Link Provided';
         }
-        
-       // Social field
+
+        // Social field
         const socialCell = document.createElement('td');
-        if (record.fields.Social) { // This should be lowercase if that's how it's defined in Airtable
+        const socialURL = record.fields.Social;
+        if (socialURL) {
             const socialLink = document.createElement('a');
-            socialLink.href = `http://${record.fields.Social}`;
-            socialLink.textContent = record.fields.Social;
+            // Same check for the social link
+            socialLink.href = socialURL.startsWith('http://') || socialURL.startsWith('https://') ? socialURL : 'https://' + socialURL;
+            socialLink.textContent = socialURL;
             socialLink.target = "_blank";
             socialCell.appendChild(socialLink);
         } else {
