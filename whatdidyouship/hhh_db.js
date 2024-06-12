@@ -32,10 +32,17 @@ function displayData(records) {
         const shippingCell = document.createElement('td');
         shippingCell.textContent = record.fields["What're you shipping"] || 'No Description Provided';
 
-        // Link to what you shipped field
+         // Link to what you shipped field
         const linkCell = document.createElement('td');
-        const linkURL = record.fields['Link to What You Shipped'];
-        linkCell.innerHTML = linkURL ? `<a href="${linkURL.startsWith('http') ? linkURL : 'http://' + linkURL}" target="_blank">${linkURL}</a>` : 'No Link Provided';
+        if (record.fields['link to what you shipped']) {
+            const link = document.createElement('a');
+            link.href = record.fields['link to what you shipped'];
+            link.textContent = 'Visit';
+            link.target = "_blank";
+            linkCell.appendChild(link);
+        } else {
+            linkCell.textContent = 'No Link Provided';
+        }
         
         // Social field
         const socialCell = document.createElement('td');
