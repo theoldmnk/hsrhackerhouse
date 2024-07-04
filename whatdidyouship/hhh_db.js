@@ -28,25 +28,54 @@ function displayData(records) {
         const nameCell = document.createElement('td');
         nameCell.textContent = record.fields.Name || 'No Name Provided';
         
+        // What're you shipping field
+        const shippingCell = document.createElement('td');
+        shippingCell.textContent = record.fields["what're you shipping?"] || 'No Description Provided';
+
         // Link to what you shipped field
         const linkCell = document.createElement('td');
-        if (record.fields['Link to What You Shipped']) {
+        const linkURL = record.fields['link to what you shipped'];
+        if (linkURL) {
             const link = document.createElement('a');
-            link.href = record.fields['Link to What You Shipped'];
-            link.textContent = record.fields['Link to What You Shipped'];
+            // Check if the link starts with http:// or https://
+            link.href = linkURL.startsWith('http://') || linkURL.startsWith('https://') ? linkURL : 'https://' + linkURL;
+            link.textContent = 'Visit';
+            link.target = "_blank";
             linkCell.appendChild(link);
         } else {
             linkCell.textContent = 'No Link Provided';
         }
-        
+
         // Social field
         const socialCell = document.createElement('td');
-        socialCell.textContent = record.fields.Social || 'No Social Info';
+        const socialURL = record.fields.social;
+        if (socialURL) {
+            const socialLink = document.createElement('a');
+            // Same check for the social link
+            socialLink.href = socialURL.startsWith('http://') || socialURL.startsWith('https://') ? socialURL : 'https://' + socialURL;
+            socialLink.textContent = socialURL;
+            socialLink.target = "_blank";
+            socialCell.appendChild(socialLink);
+        } else {
+            socialCell.textContent = 'No Social Info';
+        }
 
+        // Append cells to the row
         row.appendChild(nameCell);
+        row.appendChild(shippingCell);
         row.appendChild(linkCell);
         row.appendChild(socialCell);
         
+        // Append the row to the table body
         tableBody.appendChild(row);
     });
 }
+
+// Add this function to be called when the document is fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    fetchAirtableData().then(records => {
+        displayData(records);
+    }).catch(error => {
+        console.error("Error handling data:", error);
+    });
+});
