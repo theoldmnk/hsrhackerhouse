@@ -6,56 +6,432 @@
     <title>HSR Hacker House</title>
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <script src="https://app.youform.com/widgets/widget.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
     <style>
         body {
+            margin: 0;
+            padding: 0;
             font-family: 'VT323', monospace;
             background-color: black;
             color: white;
-            line-height: 1.6;
-            padding: 20px;
-            max-width: 800px;
-            margin: 0 auto;
         }
-        h1, h2 {
-            margin-bottom: 1rem;
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            z-index: 1000;
         }
-        p, ul {
-            margin-bottom: 1rem;
+
+        header h1 {
+            margin: 0;
+            font-size: 28px; /* Increased size */
+            color: white; /* Changed to white */
         }
-        a {
-            color: #3498db;
+
+        .nav-bar {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-item {
+            color: white;
             text-decoration: none;
+            font-size: 20px;
+            transition: color 0.3s ease;
         }
-        a:hover {
-            text-decoration: underline;
+
+        .nav-item:hover {
+            color: #FFA500; /* Orange color on hover */
+        }
+
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .big-words {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 120px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-transform: lowercase;
+        }
+
+        .big-words span {
+            color: white;
+            text-shadow: 4px 2px 20px #FF69B4;
+        }
+
+        .big-words .dot {
+            margin: 0 10px;
+            font-size: 96px;
+            line-height: 1;
+            color: #FF69B4; /* Pink color for dots */
+        }
+
+        .description {
+            font-size: 24px;
+            line-height: 1.4;
+            margin-top: 0;
+            max-width: 600px;
+            color: #c8ffb0;
+        }
+
+        .crt-frame {
+            width: 600px;
+            height: 450px;
+            background-color: #000033;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 255, 0.5);
+            margin: 0 auto 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .crt-screen {
+            width: 100%;
+            height: 100%;
+            background-color: #000066;
+            border-radius: 100px / 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .crt-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            filter: brightness(0.8) contrast(1.2) saturate(1.2) hue-rotate(180deg);
+        }
+
+        .crt-image.active {
+            opacity: 1;
+        }
+
+        .crt-frame::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%,
+                rgba(0, 0, 0, 0.25) 50%
+            );
+            background-size: 100% 4px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .crt-frame::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(
+                circle at center,
+                transparent 30%,
+                rgba(0, 0, 0, 0.3) 90%
+            );
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        #initial-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease-out;
+        }
+
+        #initial-loader p {
+            color: #39ff14;
+            font-family: 'VT323', monospace;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        #main-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 10px 20px;
+            }
+
+            .nav-bar {
+                margin-top: 10px;
+            }
+
+            .big-words {
+                font-size: 60px;
+            }
+
+            .big-words .dot {
+                font-size: 48px;
+            }
+
+            .description {
+                font-size: 18px;
+            }
+
+            .crt-frame {
+                width: 90%;
+                height: auto;
+                padding: 15px;
+            }
+
+            .crt-screen {
+                width: 100%;
+                height: 0;
+                padding-bottom: 75%; /* Maintain aspect ratio */
+            }
+
+            .crt-container {
+                padding-bottom: 40px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>hsr hacker house</h1>
-    
-    <p>
-        we're an offline community in blr, india. we meet every weekend for coworking
-        sessions aka 'shippin' hours', private dinners aka 'commons', and hack weekends.
-    </p>
-    
-    <ul>
-        <li>here's what people are <a href="#">shipping</a></li>
-        <li>a random blurb about the community's mission i haven't thought about yet.</li>
-        <li>contact: no contacts cause we hate networking. jk, hmu @theoldmnk on twitter</li>
-        <li>if you're building in ai, check this out <a href="#" data-youform-open="x4kkagb3" data-youform-position="center">ai-hackerhouse</a></li>
-    </ul>
+    <div id="initial-loader">
+        <p>initializing hsr hacker house...</p>
+        <div id="loader-animation"></div>
+    </div>
 
-    <h2>Our Events Calendar</h2>
-    <iframe 
-        src="https://lu.ma/embed/calendar/cal-xJ9LyR9WcKTjEMQ/events?lt=dark" 
-        width="100%" 
-        height="450" 
-        frameborder="0" 
-        style="border: 1px solid #bfcbda88; border-radius: 4px;" 
-        allowfullscreen="" 
-        aria-hidden="false" 
-        tabindex="0">
-    </iframe>
+    <div id="main-content">
+        <header>
+            <h1><a href="/" style="color: white; text-decoration: none;">hsr hacker house</a></h1>
+            <nav class="nav-bar">
+                <a href="/manifesto/" class="nav-item">manifesto</a>
+                <a href="/community/" class="nav-item">community</a>
+                <a href="/ai/" class="nav-item">ai</a>
+            </nav>
+        </header>
+
+        <main class="hero-section">
+            <div class="big-words">
+                <span>meet</span>
+                <span class="dot">.</span>
+                <span>ship</span>
+                <span class="dot">.</span>
+                <span>vibe</span>
+            </div>
+            <p class="description">
+                we're a hackerhouse in blr, india who meet every weekend to build stuff.
+            </p>
+        </main>
+
+        <div class="crt-container">
+
+            <div class="crt-frame">
+                <div class="crt-screen" id="crt-screen">
+                    <img src="/images/launch_post.webp" alt="HSR Hacker House Event 1" class="crt-image active">
+                    <img src="/images/demo_1.jpeg" alt="HSR Hacker House Event 2" class="crt-image">
+                    <img src="/images/demo_2.jpeg" alt="HSR Hacker House Event 3" class="crt-image">
+                    <img src="/images/demo_3.jpg" alt="HSR Hacker House Event 4" class="crt-image">
+                </div>
+            </div>
+        </div>
+        <canvas id="bouncingBallsCanvas" style="position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none;"></canvas>
+        <div id="loaderBar" style="position: fixed; top: 0; left: 0; width: 0; height: 5px; background-color: #39ff14; z-index: 10000;"></div>
+        <div id="p5-container" style="position: fixed; top: 10px; right: 10px; z-index: 9999;"></div>
+    </div>
+
+    <script>
+    const initialLoader = document.getElementById('initial-loader');
+    const mainContent = document.getElementById('main-content');
+    const loaderText = document.querySelector('#initial-loader p');
+
+    // Function to show main content and hide loader
+    function showMainContent() {
+        initialLoader.style.opacity = '0';
+        setTimeout(() => {
+            initialLoader.style.display = 'none';
+            mainContent.style.display = 'block';
+            setTimeout(() => {
+                mainContent.style.opacity = '1';
+            }, 50);
+        }, 500);
+    }
+
+    // Check if this is the first visit in the session
+    if (!sessionStorage.getItem('hasVisited')) {
+        initialLoader.style.display = 'flex';
+        mainContent.style.display = 'none';
+
+        // Set a timeout to ensure the loader doesn't get stuck
+        setTimeout(() => {
+            if (initialLoader.style.display !== 'none') {
+                console.log("Loader timeout triggered");
+                showMainContent();
+                sessionStorage.setItem('hasVisited', 'true');
+            }
+        }, 5000); // 5 second timeout
+
+        // Loader animation
+        new p5(function(p) {
+            let progress = 0;
+
+            p.setup = function() {
+                let canvas = p.createCanvas(200, 50);
+                canvas.parent('loader-animation');
+                p.frameRate(30);
+            };
+
+            p.draw = function() {
+                p.background(0);
+                
+                // Draw loading bar
+                p.stroke(57, 255, 20);
+                p.noFill();
+                p.rect(10, 10, 180, 30);
+                
+                // Fill loading bar
+                p.noStroke();
+                p.fill(57, 255, 20);
+                p.rect(12, 12, 176 * (progress / 100), 26);
+                
+                // Update progress
+                progress += 2.5; // Adjusted to complete in about 2-3 seconds
+                if (progress >= 100) {
+                    p.noLoop();
+                    showMainContent();
+                    sessionStorage.setItem('hasVisited', 'true');
+                }
+                
+                // Display percentage
+                p.fill(255);
+                p.textSize(16);
+                p.textAlign(p.CENTER, p.CENTER);
+                p.text(p.floor(progress) + "%", 100, 25);
+            };
+        });
+    } else {
+        initialLoader.style.display = 'none';
+        mainContent.style.display = 'block';
+        mainContent.style.opacity = '1';
+    }
+
+    const canvas = document.getElementById('bouncingBallsCanvas');
+    const ctx = canvas.getContext('2d');
+    const loaderBar = document.getElementById('loaderBar');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const ballSize = 10;
+    const ballCount = 5; // Number of balls
+
+    let balls = [];
+
+    for (let i = 0; i < ballCount; i++) {
+        balls.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            dx: (Math.random() - 0.5) * 4,
+            dy: (Math.random() - 0.5) * 4
+        });
+    }
+
+    function drawBall(ball) {
+        ctx.fillStyle = '#39ff14';
+        ctx.fillRect(ball.x - ballSize / 2, ball.y - ballSize / 2, ballSize, ballSize);
+    }
+
+    function update() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        balls.forEach(ball => {
+            // Move ball
+            ball.x += ball.dx;
+            ball.y += ball.dy;
+
+            // Ball collision with edges
+            if (ball.x < 0 || ball.x > canvas.width) ball.dx = -ball.dx;
+            if (ball.y < 0 || ball.y > canvas.height) ball.dy = -ball.dy;
+
+            drawBall(ball);
+        });
+
+        requestAnimationFrame(update);
+    }
+
+    update();
+
+    // Scroll progress indicator
+    function updateScrollProgress() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollProgress = (scrollTop / scrollHeight) * 100;
+        loaderBar.style.width = scrollProgress + '%';
+    }
+
+    // Update scroll progress on scroll
+    window.addEventListener('scroll', updateScrollProgress);
+
+    // Initial call to set loader position
+    updateScrollProgress();
+
+    window.addEventListener('resize', () => {
+        updateCanvasSize();
+        updateScrollProgress();
+    });
+
+    // Add this function to update canvas size on resize
+    function updateCanvasSize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    // Call updateCanvasSize initially
+    updateCanvasSize();
+
+    function rotateImages() {
+        const images = document.querySelectorAll('.crt-image');
+        let currentIndex = 0;
+
+        setInterval(() => {
+            images[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % images.length;
+            images[currentIndex].classList.add('active');
+        }, 3000);
+    }
+
+    document.addEventListener('DOMContentLoaded', rotateImages);
+    </script>
 </body>
 </html>

@@ -9,33 +9,85 @@
     <style>
         body {
             font-family: 'VT323', monospace;
-            background-color: #000; /* Black background */
-            color: #fff; /* White text */
-            padding: 20px;
-            text-transform: lowercase; /* Ensures all text is lowercase */
-            font-size: 24px; /* Significantly larger font size */
+            background-color: #000;
+            color: #fff;
+            padding: 80px 20px 20px; /* Increased top padding */
+            text-transform: lowercase;
+            font-size: 24px;
             margin: 0;
         }
         .container {
             max-width: 800px;
-            margin: 0 auto; /* Center the container */
+            margin: 0 auto;
+            /* Remove padding from here as it's now on the body */
         }
         h1, p, ul {
             margin: 10px 0;
         }
         h1 {
-            font-size: 36px; /* Even larger font size for headers */
+            font-size: 36px;
         }
         a {
-            color: #4A90E2; /* Light blue color for links */
+            color: #4A90E2;
             text-decoration: none;
         }
         a:hover {
             text-decoration: underline;
         }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            z-index: 1000;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+            color: white;
+        }
+        .nav-bar {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            transition: color 0.3s ease;
+        }
+        .nav-item:hover {
+            color: #FFA500;
+        }
+    </style>
+    <script src="https://app.youform.com/widgets/widget.js"></script>
+    <style>
+        /* Updated style for the YouForm modal */
+        iframe[src^="https://app.youform.com/"] {
+            border-radius: 15px !important; /* Adjust this value as needed */
+            overflow: hidden !important;
+        }
+
+        /* Style for the modal container */
+        div[id^="youform-"] {
+            border-radius: 15px !important; /* Match this with the iframe border-radius */
+            overflow: hidden !important;
+        }
     </style>
 </head>
 <body>
+    <header>
+        <h1><a href="/" style="color: white; text-decoration: none;">hsr hacker house</a></h1>
+        <nav class="nav-bar">
+            <a href="/manifesto/" class="nav-item">manifesto</a>
+            <a href="/community/" class="nav-item">community</a>
+            <a href="/ai/" class="nav-item">ai</a>
+        </nav>
+    </header>
     <div class="container">
         <h1>AI Hacker House</h1>
         <p>A lot of the AI innovation in SF is said to come out of hacker culture. There's the AGI House, HF0 etc.</p>
@@ -51,7 +103,7 @@
             <li>co-living (coming soon)</li>
             <li>24*7 co-working (coming soon)</li>
         </ul>
-        <p>if you really believe you can ship a 100 times better being with high energy folks under one roof and wanna accelerate towards agi, we should chat - <a href="https://app.youform.com/forms/x4kkagb3">apply here</a>.</p>
+        <p>if you really believe you can ship a 100 times better being with high energy folks under one roof and wanna accelerate towards agi, we should chat - <a href="#" data-youform-open="x4kkagb3" data-youform-position="center">apply here</a>.</p>
     </div>
 </body>
 </html>

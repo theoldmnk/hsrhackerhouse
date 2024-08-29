@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community - HSR Hacker House</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'VT323', monospace;
+            background-color: black;
+            color: white;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            z-index: 1000;
+            background-color: black;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+            color: white;
+        }
+
+        .nav-bar {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-item:hover {
+            color: #FFA500;
+        }
+
+        main {
+            padding: 100px 40px 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .community-container {
+            margin-top: 40px;
+            border: 2px solid #FFA500;
+            padding: 20px;
+            background-color: #111;
+        }
+
+        .community-description {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .join-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #FFA500;
+            color: black;
+            text-decoration: none;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .join-button:hover {
+            background-color: #FFD700;
+        }
+
+        .luma-calendar {
+            text-align: center;
+        }
+
+        .luma-calendar iframe {
+            width: 100%;
+            max-width: 600px;
+            height: 450px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><a href="/" style="color: white; text-decoration: none;">hsr hacker house</a></h1>
+        <nav class="nav-bar">
+            <a href="/manifesto/" class="nav-item">manifesto</a>
+            <a href="/community/" class="nav-item">community</a>
+            <a href="/ai/" class="nav-item">ai</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>community</h2>
+        <p>need to add more content here which will be the description of the community</p>
+        
+        <div class="community-container">
+            <p class="community-description">if you wanna build cool stuff over the weekend, join our community or show up to one of the sessions</p>
+            <a href="https://lu.ma/hsrhackerhouse" class="join-button" target="_blank">join the community</a>
+            
+            <div class="luma-calendar">
+                <iframe
+                    src="https://lu.ma/embed/calendar/cal-xJ9LyR9WcKTjEMQ/events?"
+                    frameborder="0"
+                    allowfullscreen=""
+                    aria-hidden="false"
+                    tabindex="0"
+                ></iframe>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Add any necessary JavaScript here
+    </script>
+</body>
+</html>
