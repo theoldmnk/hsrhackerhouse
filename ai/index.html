@@ -11,7 +11,7 @@
             font-family: 'VT323', monospace;
             background-color: #000;
             color: #fff;
-            padding: 80px 20px 20px; /* Increased top padding */
+            padding: 80px 20px 20px;
             text-transform: lowercase;
             font-size: 24px;
             margin: 0;
@@ -19,7 +19,6 @@
         .container {
             max-width: 800px;
             margin: 0 auto;
-            /* Remove padding from here as it's now on the body */
         }
         h1, p, ul {
             margin: 10px 0;
@@ -63,21 +62,61 @@
         .nav-item:hover {
             color: #FFA500;
         }
-    </style>
-    <script src="https://app.youform.com/widgets/widget.js"></script>
-    <style>
-        /* Updated style for the YouForm modal */
-        iframe[src^="https://app.youform.com/"] {
-            border-radius: 15px !important; /* Adjust this value as needed */
-            overflow: hidden !important;
+        .crt-container {
+            margin: 30px auto;
         }
+        .crt-frame {
+            width: 600px;
+            height: 450px;
+            background-color: #000033;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 255, 0.5);
+            margin: 0 auto 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        .crt-screen {
+            width: 100%;
+            height: 100%;
+            background-color: #000066;
+            border-radius: 100px / 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        .crt-image {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: white;
+            position: absolute;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .crt-image.active {
+            opacity: 1;
+        }
+        .crt-frame::before,
+        .crt-frame::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%,
+                rgba(0, 0, 0, 0.25) 50%
+            );
+            background-size: 100% 4px;
+            z-index: 2;
+            pointer-events: none;
+        }
+    </style>
 
-        /* Style for the modal container */
-        div[id^="youform-"] {
-            border-radius: 15px !important; /* Match this with the iframe border-radius */
-            overflow: hidden !important;
-        }
-    </style>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-RZCC6R0CHZ"></script>
     <script>
@@ -102,17 +141,51 @@
         <p>A lot of the AI innovation in SF is said to come out of hacker culture. There's the AGI House, HF0 etc.</p>
         <p>There are over 25 hackerhouses in the Bay Area. There are none in Bangalore.</p>
         <p>We wanna change that. If we wanna accelerate AI innovation in BLR, we need to have hackerhouses where people can ship 10x together.</p>
-        <p>here's what V0 of the AI-hackerhouse is gonna look like:</p>
+        <p>here's what V1 of the AI-hackerhouse is gonna look like:</p>
         <ul>
-            <li>1 month long</li>
-            <li>3 co-working sessions every week</li>
+            <li>2 month long</li>
+            <li>4-5 co-working sessions every week</li>
             <li>bi-weekly demo days</li>
             <li>jam with angels & VC (only the nice ones)</li>
             <li>exclusive close-knit mixers</li>
-            <li>co-living (coming soon)</li>
+            <li>access to gpus and credits (comingsoon)</li>
             <li>24*7 co-working (coming soon)</li>
         </ul>
-        <p>if you really believe you can ship a 100 times better being with high energy folks under one roof and wanna accelerate towards agi, we should chat - <a href="#" data-youform-open="x4kkagb3" data-youform-position="center">apply here</a>.</p>
+        <!-- Update the Apply Here link to open in a new tab -->
+        <p><a href="https://app.youform.com/forms/x4kkagb3" target="_blank" rel="noopener noreferrer">Apply here</a></p>
+        <!-- Update the Here's how v0 went section -->
+         <br>
+        <h1>Here's how v0 went</h1>
+        <ul>
+            <li>how it was <a href="https://unequaled-guilty-2c8.notion.site/v0-the-AI-hackerhouse-in-blr-india-ec207be002c643aea43b89e7fde4765b?pvs=4" target="_blank">structured</a></li>
+            <li>what people <a href="https://unequaled-guilty-2c8.notion.site/what-are-people-working-on-in-the-ai-hackerhouse-2ee8fd3a5527455389434794545c39d6?pvs=4" target="_blank">built</a></li>
+        </ul>
+
+    <div class="crt-container">
+        <div class="crt-frame">
+            <div class="crt-screen" id="crt-screen">
+                <img src="/images/ai_hackerhouse_hall.jpeg" alt="AI Hacker House Hall" class="crt-image active">
+                <img src="/images/ai_hackerhouse.jpg" alt="AI Hacker House" class="crt-image">
+                <img src="/images/ai_hh_1.jpg" alt="AI Hacker House Event" class="crt-image">
+                <img src="/images/applications open.webp" alt="applications_open" class="crt-image">
+                <!-- Add more images from v0 here -->
+            </div>
+        </div>
     </div>
+
+    <script>
+        function rotateImages() {
+            const images = document.querySelectorAll('.crt-image');
+            let currentIndex = 0;
+
+            setInterval(() => {
+                images[currentIndex].classList.remove('active');
+                currentIndex = (currentIndex + 1) % images.length;
+                images[currentIndex].classList.add('active');
+            }, 5000);
+        }
+
+        document.addEventListener('DOMContentLoaded', rotateImages);
+    </script>
 </body>
 </html>

@@ -30,8 +30,8 @@
 
         header h1 {
             margin: 0;
-            font-size: 28px; /* Increased size */
-            color: white; /* Changed to white */
+            font-size: 28px;
+            color: white; /* Changed from #FF69B4 to white */
         }
 
         .nav-bar {
@@ -118,7 +118,6 @@
             position: absolute;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
-            filter: brightness(0.8) contrast(1.2) saturate(1.2) hue-rotate(180deg);
         }
 
         .crt-image.active {
@@ -222,6 +221,7 @@
 
             .crt-container {
                 padding-bottom: 40px;
+                margin-top: -30px; /* Increased from -20px to -30px for mobile */
             }
         }
     </style>
@@ -270,7 +270,6 @@
         </main>
 
         <div class="crt-container">
-
             <div class="crt-frame">
                 <div class="crt-screen" id="crt-screen">
                     <img src="/images/launch_post.webp" alt="HSR Hacker House Event 1" class="crt-image active">
@@ -442,7 +441,7 @@
             images[currentIndex].classList.remove('active');
             currentIndex = (currentIndex + 1) % images.length;
             images[currentIndex].classList.add('active');
-        }, 3000);
+        }, 5000);
     }
 
     document.addEventListener('DOMContentLoaded', rotateImages);
